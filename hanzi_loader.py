@@ -3,6 +3,7 @@
 
 # Import Packages
 import os
+import pandas as pd
 
 # Define variables
 cpath = os.getcwd()
@@ -17,6 +18,13 @@ HSK_6_file = os.path.join(hpath, "HV6.csv")
 
 # Define Functions
 
-# Run application
-if __name__=="__main__":
-    print("Hello World")
+def load_vocab(file_path):
+    vocab = pd.read_csv(file_path, header=0)
+    return vocab
+
+def vocab_cleaner(vdf, ct_val):
+    if ct_val <= 0:
+        df = vdf[['Word', 'Meaning']]
+    else:
+        df = vdf[['Traditional_Word', 'Meaning']]
+    return df
