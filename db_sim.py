@@ -21,9 +21,13 @@ db_file_path = os.path.join(db_path, "db_file.csv") #This is going to act like a
 
 
 # Define Functions
+def user_hanzi_reader(username): # Temp File Path
+    return pd.read_csv(username)
 
-# Run Application
-if __name__=="__main__":
-    raw_vdf = load_vocab(HSK_1_file)
-    clean_df = vocab_cleaner(raw_vdf, 0)
-    print(clean_df)
+def update_hanzi(username, hanzi_df): # Temp File Path
+    try:
+        hanzi_df.to_csv(username, index=False)
+    except Exception as e:
+        print(e)
+
+### When a DB is used, SQLAlchemy will be needed to connect to the DB. 
