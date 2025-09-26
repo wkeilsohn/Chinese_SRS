@@ -17,6 +17,8 @@ c_path = os.getcwd()
 db_path = os.path.join(cpath, "DB_SIM")
 
 db_file_path = os.path.join(db_path, "db_file.csv") #This is going to act like a DB ATM.
+### In prod, a DB will have a table for each user. Here, we will have one "table" (sheet) just for the admin account.
+
 
 # Define Functions
 
