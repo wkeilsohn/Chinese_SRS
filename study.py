@@ -6,8 +6,7 @@ import numpy as np
 import pandas as pd
 from time_manager import *
 import math
-
-# Define Global Variable
+from cmd_interface import *
 
 # Define Functions
 def get_first_words(hanzi_df):
@@ -54,13 +53,15 @@ def study_word(user_word_input, word_def_val):
         return 0
 
 def check_if_need_to_study(user_df):
+    word_ls = list(user_df["Meaning"])
     for index, row in user_df.iterrows():
         time_since_studied = calculate_time_since_last_study(last_review_time=row["Last_Studied"])
         study_needed = check_if_study(p_val=row["Study_Level"], review_time=time_since_studied)
         if not study_needed:
             pass
         else:
-            user_value = interface_study_word() # Needs to be updated to a web gui latter. 
+            answer_ls = create_answer_ls(word_ls=word_ls, answer=row["Meaning"]) # May keep this.
+            user_value = interface_study_word(row, answer_ls) # Needs to be updated to a web gui latter. 
             row["Last_Studied"] = datetime.now()
             inc_val = row["Inccorect_Times"] + study_word(user_value, row["Meaning"])
             row["Inccorect_Times"] = inc_val
