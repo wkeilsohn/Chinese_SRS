@@ -24,9 +24,10 @@ db_file_path = os.path.join(db_path, "db_file.csv") #This is going to act like a
 def user_hanzi_reader(username): # Temp File Path
     return pd.read_csv(username)
 
-def update_hanzi(username, hanzi_df): # Temp File Path
+def update_hanzi(hanzi_df): # Temp File Path
+    global db_file_path
     try:
-        hanzi_df.to_csv(username, index=False)
+        hanzi_df.to_csv(db_file_path, index=False)
     except Exception as e:
         print(e)
 

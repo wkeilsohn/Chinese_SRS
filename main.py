@@ -24,13 +24,28 @@ from db_sim import *
 
 # Define Functions
 
-# Run Application
-if __name__=="__main__":
+### These functions may become obsolete very quickly
+
+def create_first_words():
     raw_vdf = load_vocab(HSK_1_file)
     clean_df = vocab_cleaner(raw_vdf, 0)
-    user_name = get_user_name()
     starting_words = get_first_words(hanzi_df=clean_df)
-    user_df = build_user_data(username=user_name, starting_words=starting_words)
-    print(user_df)
+    return starting_words
+
+def check_existing_users(user_name):
+    try:
+        user_data = pd.read_csv(db_file_path)
+        user_df = user_data[user_data["User_Name"] == user_name]
+    except:
+        starting_words = create_first_words()
+        user_df = build_user_data(username=user_name, starting_words=starting_words)
+    return user_df
+
+###
+
+# Run Application
+if __name__=="__main__":
+    user_name = get_user_name()
+    user_df = check_existing_users(user_name=user_name)
     user_df = check_if_need_to_study(user_df=user_df)
-    print(user_df)
+    update_hanzi(user_df)

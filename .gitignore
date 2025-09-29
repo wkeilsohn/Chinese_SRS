@@ -1,6 +1,7 @@
 # Project Specific
 venv/
 *.env
+*.csv
 
 # Generic 
 # Byte-compiled / optimized / DLL files
