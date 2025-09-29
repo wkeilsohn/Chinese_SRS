@@ -36,15 +36,22 @@ def add_new_user_words(hanzi_df, user_df):
     total_words = pd.concat([user_df, user_words], ignore_index=True)
     return total_words
     
-def update_SRS_level(inc_times, study_level): # Return the new SRS Level
+def update_SRS_level(inc_times, study_level, inc_value): # Return the new SRS Level
     global time_dict
     inc_adjust = math.ceil(inc_times / 2)
     c_stage = list(time_dict).index(study_level)
-    c_adjust = 1
-    if c_stage >= 5:
-        c_adjust = 2
-    level_change = math.floor(c_stage - (inc_adjust * c_adjust))
-    return list(time_dict.keys())[level_change]
+    if inc_value == 0:
+        level_change = c_stage + 1
+    else:
+        c_adjust = 1
+        if c_stage >= 5:
+            c_adjust = 2
+        level_change = math.floor(c_stage - (inc_adjust * c_adjust))
+    if level_change < 0: # I wish I had 0 wishes
+        level_change = 0 # Granted. You now have 255 wishes.
+    new_level = list(time_dict.keys())[level_change]
+    # print(new_level)
+    return new_level
 
 def study_word(user_word_input, word_def_val):
     if word_def_val != user_word_input:
@@ -62,8 +69,9 @@ def check_if_need_to_study(user_df):
         else:
             answer_ls = create_answer_ls(word_ls=word_ls, answer=row["Meaning"]) # May keep this.
             user_value = interface_study_word(row, answer_ls) # Needs to be updated to a web gui latter. 
-            row["Last_Studied"] = datetime.now()
-            inc_val = row["Inccorect_Times"] + study_word(user_value, row["Meaning"])
-            row["Inccorect_Times"] = inc_val
-            row["Study_Level"] = update_SRS_level(inc_times=inc_val, study_level=row["Study_Level"])
+            user_df.at[index, "Last_Studied"] = datetime.now()
+            study_result = study_word(user_value, row["Meaning"])
+            inc_val = row["Inccorect_Times"] + study_result
+            user_df.at[index, "Inccorect_Times"] = inc_val
+            user_df.at[index, "Study_Level"] = update_SRS_level(inc_times=inc_val, study_level=row["Study_Level"], inc_value=study_result)
     return user_df
