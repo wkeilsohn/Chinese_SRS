@@ -21,7 +21,7 @@ def get_next_set(hanzi_df, last_word):
 def build_user_data(username, starting_words):
     tmp_df = starting_words
     tmp_df["User_Name"] = username
-    tmp_df["Last_Studied"] = 0
+    tmp_df["Last_Studied"] = datetime.now()
     tmp_df["Study_Level"] = "PP"
     tmp_df["Word_Level"] = 1
     tmp_df["Inccorect_Times"] = 0
@@ -39,7 +39,7 @@ def add_new_user_words(hanzi_df, user_df):
 def update_SRS_level(inc_times, study_level): # Return the new SRS Level
     global time_dict
     inc_adjust = math.ceil(inc_times / 2)
-    c_stage = list(time_dict()).index(study_level)
+    c_stage = list(time_dict).index(study_level)
     c_adjust = 1
     if c_stage >= 5:
         c_adjust = 2

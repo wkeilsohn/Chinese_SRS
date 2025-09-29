@@ -32,3 +32,5 @@ if __name__=="__main__":
     starting_words = get_first_words(hanzi_df=clean_df)
     user_df = build_user_data(username=user_name, starting_words=starting_words)
     print(user_df)
+    user_df = check_if_need_to_study(user_df=user_df)
+    print(user_df)
