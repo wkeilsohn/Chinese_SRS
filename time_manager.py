@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 # Define Variables
 
 time_dict = {"PP":0, "P0":2, "P1":4, "P2":8, "P3":24, "P4":48, "P5":168, "P6":336, "P7":732, "P8":2928}
+format_string = "%Y-%m-%d %H:%M:%S.%f"
 
 # Define Functions
 def calculate_time_since_last_study(last_review_time):

@@ -60,9 +60,11 @@ def study_word(user_word_input, word_def_val):
         return 0
 
 def check_if_need_to_study(user_df):
+    global format_string
     word_ls = list(user_df["Meaning"])
     for index, row in user_df.iterrows():
-        time_since_studied = calculate_time_since_last_study(last_review_time=row["Last_Studied"])
+        last_study_date = datetime.strptime(row["Last_Studied"], format_string)
+        time_since_studied = calculate_time_since_last_study(last_review_time=last_study_date)
         study_needed = check_if_study(p_val=row["Study_Level"], review_time=time_since_studied)
         if not study_needed:
             pass
