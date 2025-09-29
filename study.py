@@ -23,5 +23,7 @@ def build_user_data(username, starting_words):
     tmp_df["User_Name"] = username
     tmp_df["Last_Studied"] = 0
     tmp_df["Study_Level"] = "PP"
+    tmp_df["Word_Level"] = 
     return tmp_df
     
+def update_SRS_level(current_level, )
