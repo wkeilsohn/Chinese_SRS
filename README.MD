@@ -23,3 +23,7 @@ This application is free to use and is being provided "AS IS".
 Not every part or parts are free nor owned by this author. Some are protected under thier own intelectual property rights and thus cannot be covered by this statement. Please check with the sources below for details.
 
 ## Sources
+
+- Django Docs
+- Wani Kani Docs (https://knowledge.wanikani.com/wanikani/srs-stages)
+- HSK Word List (https://github.com/glxxyz/hskhsk.com)
