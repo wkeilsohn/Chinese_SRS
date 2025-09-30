@@ -1,3 +1,11 @@
-from django.shortcuts import render
+# William Keilsohn
+# September 30
 
-# Create your views here.
+# Import Packages
+from django.shortcuts import render
+from django.http import HttpResponse
+
+# Create Views
+
+def index(request):
+    return HttpResponse("Hello World!")
