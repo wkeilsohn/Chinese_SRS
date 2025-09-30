@@ -50,4 +50,5 @@ if __name__=="__main__":
     user_df = check_if_need_to_study(user_df=user_df)
     update_hanzi(user_df=user_df)
     hanzi_df = get_current_hanzi_sheet(user_df=user_df)
+    hanzi_df = get_next_sheet(hanzi_df=hanzi_df, user_df=user_df)
     user_advance(hanzi_df=hanzi_df, user_df=user_df)

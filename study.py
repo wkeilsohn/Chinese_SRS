@@ -26,9 +26,15 @@ def get_current_hanzi_sheet(user_df):
     hanzi_df_path = os.path.join(hpath, "HV{}.csv".format(current_sheet))
     return get_user_words(num_file=hanzi_df_path)
 
-# def get_next_sheet(hanzi_df, last_word):
-#     if hanzi_df.tail(1)["Word"] == last_word:
-
+def get_next_sheet(hanzi_df, user_df):
+    sheet_level = hanzi_df.tail(1)["Sheet_Level"]
+    last_word = user_df.tail(1)["Word"]
+    if hanzi_df.tail(1)["Word"] == last_word:
+        sheet_level = sheet_level + 1
+        hanzi_df_path = os.path.join(hpath, "HV{}.csv".format(sheet_level))
+        hanzi_df = get_user_words(num_file=hanzi_df_path)
+    return hanzi_df
+      
 
 def get_next_set(hanzi_df, last_word):
     current_loc = hanzi_df[hanzi_df["Word"] == last_word].index[0]
