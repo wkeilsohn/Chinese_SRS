@@ -29,3 +29,8 @@ def vocab_cleaner(vdf, ct_val):
     else:
         df = vdf[['Traditional_Word', 'Meaning', 'Sheet_Level']]
     return df
+
+def get_user_words(num_file):
+    raw_vdf = load_vocab(num_file)
+    clean_df = vocab_cleaner(raw_vdf, 0)
+    return clean_df

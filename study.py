@@ -11,10 +11,23 @@ import pandas as pd
 from time_manager import *
 import math
 from cmd_interface import *
+from hanzi_loader import get_user_words
+
+# Declare Variables
+hanzi_df = pd.DataFrame() # This is temporart
 
 # Define Functions
 def get_first_words(hanzi_df):
     return hanzi_df.head(5)
+
+def get_current_hanzi_sheet(user_df):
+    current_sheet = user_df.tail(1)["Sheet_Level"]
+    hanzi_df_path = os.path.join(hpath, "HV{}.csv".format(current_sheet))
+    return get_user_words(num_file=hanzi_df_path)
+
+# def get_next_sheet(hanzi_df, last_word):
+#     if hanzi_df.tail(1)["Word"] == last_word:
+
 
 def get_next_set(hanzi_df, last_word):
     current_loc = hanzi_df[hanzi_df["Word"] == last_word].index[0]
