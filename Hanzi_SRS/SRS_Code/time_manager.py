@@ -8,8 +8,20 @@ from datetime import datetime, timedelta
 
 # Define Variables
 
-time_dict = {"PP":0, "P0":2, "P1":4, "P2":8, "P3":24, "P4":48, "P5":168, "P6":336, "P7":732, "P8":2928}
+time_dict = {
+    "PP": 0,
+    "P0": 2,
+    "P1": 4,
+    "P2": 8,
+    "P3": 24,
+    "P4": 48,
+    "P5": 168,
+    "P6": 336,
+    "P7": 732,
+    "P8": 2928,
+}
 format_string = "%Y-%m-%d %H:%M:%S.%f"
+
 
 # Define Functions
 def calculate_time_since_last_study(last_review_time):
@@ -17,6 +29,7 @@ def calculate_time_since_last_study(last_review_time):
     time_diff = ctime - last_review_time
     time_diff = time_diff.total_seconds()
     return time_diff / 3600
+
 
 def check_if_study(p_val, review_time):
     global time_dict
