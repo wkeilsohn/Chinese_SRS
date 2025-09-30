@@ -8,6 +8,14 @@ The main use of this application is to allow the user to study Chinese Hanzi usi
 
 ## Dev Notes
 
+- 9/30/2025
+If you want to run this application from the command line (i.e. no web interface), you can do so by activating the main.py file inside of the SRS_Code file like so:
+```
+python main.py
+```
+This file will use a CSV saved locally to create a personalized version of the SRS application for you.
+
+
 ## License
 
 This application is free to use and is being provided "AS IS".
