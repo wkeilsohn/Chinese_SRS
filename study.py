@@ -6,15 +6,16 @@
 ###
 
 # Import Packages
+import os
 import numpy as np
 import pandas as pd
 from time_manager import *
 import math
 from cmd_interface import *
-from hanzi_loader import get_user_words
+from hanzi_loader import get_user_words, hpath
 
 # Declare Variables
-hanzi_df = pd.DataFrame() # This is temporart
+hanzi_df = pd.DataFrame() # This is temporary
 
 # Define Functions
 def get_first_words(hanzi_df):
