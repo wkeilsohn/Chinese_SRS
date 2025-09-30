@@ -73,7 +73,10 @@ def check_if_need_to_study(user_df):
     global format_string
     word_ls = list(user_df["Meaning"])
     for index, row in user_df.iterrows():
-        last_study_date = datetime.strptime(row["Last_Studied"], format_string)
+        try:
+            last_study_date = datetime.strptime(row["Last_Studied"], format_string)
+        except:
+            last_study_date = datetime.now() # Error only occurs when crearing new user. 
         time_since_studied = calculate_time_since_last_study(last_review_time=last_study_date)
         study_needed = check_if_study(p_val=row["Study_Level"], review_time=time_since_studied)
         if not study_needed:

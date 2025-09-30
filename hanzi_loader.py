@@ -20,11 +20,12 @@ HSK_6_file = os.path.join(hpath, "HV6.csv")
 
 def load_vocab(file_path):
     vocab = pd.read_csv(file_path, header=0)
+    vocab["Sheet_Level"] = file_path[-5]
     return vocab
 
 def vocab_cleaner(vdf, ct_val):
     if ct_val <= 0:
-        df = vdf[['Word', 'Meaning']]
+        df = vdf[['Word', 'Meaning', 'Sheet_Level']]
     else:
-        df = vdf[['Traditional_Word', 'Meaning']]
+        df = vdf[['Traditional_Word', 'Meaning', 'Sheet_Level']]
     return df
