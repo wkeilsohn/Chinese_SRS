@@ -22,14 +22,14 @@ def get_first_words(hanzi_df):
     return hanzi_df.head(5)
 
 def get_current_hanzi_sheet(user_df):
-    current_sheet = user_df.tail(1)["Sheet_Level"]
+    current_sheet = user_df.tail(1)["Sheet_Level"].iloc[0]
     hanzi_df_path = os.path.join(hpath, "HV{}.csv".format(current_sheet))
     return get_user_words(num_file=hanzi_df_path)
 
 def get_next_sheet(hanzi_df, user_df):
-    sheet_level = hanzi_df.tail(1)["Sheet_Level"]
-    last_word = user_df.tail(1)["Word"]
-    if hanzi_df.tail(1)["Word"] == last_word:
+    sheet_level = hanzi_df.tail(1)["Sheet_Level"].iloc[0]
+    last_word = user_df.tail(1)["Word"].iloc[0]
+    if hanzi_df.tail(1)["Word"].iloc[0] == last_word:
         sheet_level = sheet_level + 1
         hanzi_df_path = os.path.join(hpath, "HV{}.csv".format(sheet_level))
         hanzi_df = get_user_words(num_file=hanzi_df_path)
@@ -52,14 +52,14 @@ def build_user_data(username, starting_words, word_level=1):
     return tmp_df
 
 def check_word_level(user_df):
-    current_level = user_df.tail(1)["Word_Level"]
+    current_level = user_df.tail(1)["Word_Level"].iloc[0]
     new_level = current_level + 1
     return new_level
 
 def add_new_user_words(hanzi_df, user_df):
     user_info = user_df.tail(1)
-    user_name = user_info["User_Name"][0]
-    last_word = user_info["Word"][0]
+    user_name = user_info["User_Name"].iloc[0]
+    last_word = user_info["Word"].iloc[0]
     new_words = get_next_set(hanzi_df=hanzi_df, last_word=last_word)
     new_word_level = check_word_level(user_df=user_df)
     user_words = build_user_data(username=user_name, starting_words=new_words, word_level=new_word_level)
@@ -129,5 +129,6 @@ def check_for_user_progress(user_df):
 def user_advance(hanzi_df, user_df):
     user_status = check_for_user_progress(user_df=user_df)
     if user_status == True:
-        add_new_user_words(hanzi_df=hanzi_df, user_df=user_df)
+        user_df = add_new_user_words(hanzi_df=hanzi_df, user_df=user_df)
         check_if_need_to_study(user_df=user_df) # Forces the user to study the new words. 
+    return user_df
