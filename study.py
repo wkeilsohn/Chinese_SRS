@@ -1,6 +1,10 @@
 # William Keilsohn
 # September 26 2025
 
+###
+# This file essentially acts as the "Brain" of the SRS Program.
+###
+
 # Import Packages
 import numpy as np
 import pandas as pd
@@ -18,21 +22,27 @@ def get_next_set(hanzi_df, last_word):
     end_loc =  start_loc + 5
     return hanzi_df.iloc[start_loc:end_loc]
 
-def build_user_data(username, starting_words):
+def build_user_data(username, starting_words, word_level=1):
     tmp_df = starting_words
     tmp_df["User_Name"] = username
     tmp_df["Last_Studied"] = datetime.now()
     tmp_df["Study_Level"] = "PP"
-    tmp_df["Word_Level"] = 1
+    tmp_df["Word_Level"] = word_level
     tmp_df["Inccorect_Times"] = 0
     return tmp_df
+
+def check_word_level(user_df):
+    current_level = user_df.tail(1)["Word_Level"]
+    new_level = current_level + 1
+    return new_level
 
 def add_new_user_words(hanzi_df, user_df):
     user_info = user_df.tail(1)
     user_name = user_info["User_Name"][0]
     last_word = user_info["Word"][0]
     new_words = get_next_set(hanzi_df=hanzi_df, last_word=last_word)
-    user_words = build_user_data(username=user_name, starting_words=new_words)
+    new_word_level = check_word_level(user_df=user_df)
+    user_words = build_user_data(username=user_name, starting_words=new_words, word_level=new_word_level)
     total_words = pd.concat([user_df, user_words], ignore_index=True)
     return total_words
     
@@ -77,3 +87,24 @@ def check_if_need_to_study(user_df):
             user_df.at[index, "Inccorect_Times"] = inc_val
             user_df.at[index, "Study_Level"] = update_SRS_level(inc_times=inc_val, study_level=row["Study_Level"], inc_value=study_result)
     return user_df
+
+def check_for_user_progress(user_df):
+    global time_dict
+    user_progress = user_df["Study_Level"].tolist()
+    passing_level = list(time_dict.keys())[-4:]
+    passed_words = []
+    for i in user_progress:
+        if i in passing_level:
+            passed_words.append(i)
+        else:
+            pass
+    if len(passed_words) >= math.ceil(3 *(len(user_progress) / 4)):
+        return True
+    else:
+        return False
+    
+def user_advance(hanzi_df, user_df):
+    user_status = check_for_user_progress(user_df=user_df)
+    if user_status == True:
+        add_new_user_words(hanzi_df=hanzi_df, user_df=user_df)
+        check_if_need_to_study(user_df=user_df) # Forces the user to study the new words. 

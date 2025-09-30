@@ -24,6 +24,11 @@ from db_sim import *
 
 # Define Functions
 
+# def get_user_words(num_file=HSK_1_file):
+#     raw_vdf = load_vocab(num_file)
+#     clean_df = vocab_cleaner(raw_vdf, 0)
+#     return clean_df
+
 ### These functions may become obsolete very quickly
 
 def create_first_words():
