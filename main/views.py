@@ -17,7 +17,7 @@ warnings.simplefilter("ignore")
 
 # Load Initial Data
 hanzi_df = pd.DataFrame(list(Hanzi.objects.all().values()))
-user_df = df = pd.DataFrame(list(User_Words.objects.all().values())) 
+user_df = pd.DataFrame(list(User_Words.objects.all().values())) 
 
 # Create Views
 
@@ -36,12 +36,11 @@ def index(request):
     print(User_Words.objects.all().values())
     return HttpResponse("Hello World!")
 
-def question(request, word):
-    return HttpResponse(word)
-
-def answer(request, meaning):
-    return HttpResponse(meaning)
+def study(request, username): # This May be broken up later... I just want to create the integration how. 
+    user_df = pd.DataFrame(list(User_Words.objects.all().values())) 
+    user_words = user_df[user_df["user_name"] == username]
+    user_words = check_if_need_to_study(user_df=user_words)
+    return HttpResponse(user_words)
 
 def user_dash(request, username):
     return HttpResponse(username)
-

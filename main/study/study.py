@@ -11,6 +11,7 @@ import numpy as np
 import pandas as pd
 from .time_manager import *
 import math
+from random import randint
 
 # Declare Variables
 hanzi_df = pd.DataFrame()  # This is temporary
@@ -106,39 +107,42 @@ def study_word(user_word_input, word_def_val):
     else:
         return 0
 
+def create_answer_ls(word_ls, answer):
+    indxs = [randint(0, len(word_ls)) for x in range(3)]
+    indxs = [x - 1 if x >= len(word_ls) else x for x in indxs]
+    ans = [word_ls[x] for x in indxs]
+    y = randint(0, len(ans))
+    ans.insert(y, answer)
+    return ans
+
+
+def create_answer_options(answer_ls):
+    answer_df = pd.DataFrame(answer_ls)
+    return answer_df
+
 
 def check_if_need_to_study(user_df):
     global format_string
-    word_ls = list(user_df["Meaning"])
+    word_ls = list(user_df["meaning"])
     for index, row in user_df.iterrows():
         try:
-            last_study_date = datetime.strptime(row["Last_Studied"], format_string)
+            last_study_date = datetime.strptime(row["last_studied"], format_string)
         except:
-            last_study_date = (
-                datetime.now()
-            )  # Error only occurs when crearing new user.
-        time_since_studied = calculate_time_since_last_study(
-            last_review_time=last_study_date
-        )
-        study_needed = check_if_study(
-            p_val=row["Study_Level"], review_time=time_since_studied
-        )
+            last_study_date = (datetime.now())  # Error only occurs when crearing new user.
+        time_since_studied = calculate_time_since_last_study(last_review_time=last_study_date)
+        study_needed = check_if_study(p_val=row["study_level"], review_time=time_since_studied)
         if not study_needed:
             pass
         else:
-            answer_ls = create_answer_ls(
-                word_ls=word_ls, answer=row["Meaning"]
-            )  # May keep this.
-            user_value = interface_study_word(
-                row, answer_ls
-            )  # Needs to be updated to a web gui latter.
-            user_df.at[index, "Last_Studied"] = datetime.now()
-            study_result = study_word(user_value, row["Meaning"])
-            inc_val = row["Inccorect_Times"] + study_result
-            user_df.at[index, "Inccorect_Times"] = inc_val
-            user_df.at[index, "Study_Level"] = update_SRS_level(
+            answer_ls = create_answer_ls(word_ls=word_ls, answer=row["meaning"])  # Keeping this for now. 
+            user_value = interface_study_word(row, answer_ls)  # Not sure how to itterate through webpages...
+            user_df.at[index, "last_studied"] = datetime.now()
+            study_result = study_word(user_value, row["meaning"])
+            inc_val = row["inccorect_times"] + study_result
+            user_df.at[index, "inccorect_times"] = inc_val
+            user_df.at[index, "study_level"] = update_SRS_level(
                 inc_times=inc_val,
-                study_level=row["Study_Level"],
+                study_level=row["study_level"],
                 inc_value=study_result,
             )
     return user_df
