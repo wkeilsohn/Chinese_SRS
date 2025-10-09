@@ -57,7 +57,8 @@ def ask_word(request, username): # How to handle an individual term... I think .
     ans_ls = create_answer_ls(pos_words, word["meaning"])
     print(ans_ls)
     # Need to retrieve the answer from the web interface.
-    return HttpResponse(username)
+    context = {'word_char':word["word"], 'answers':ans_ls, 'user_name':username, 'page_name':"Study"}
+    return render(request, 'main/study.html', context)
 
 def word_results(request, username): # Display answer and return to study list.
     word = request.session.get('word', None)
