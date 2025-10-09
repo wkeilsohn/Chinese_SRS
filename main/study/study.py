@@ -50,7 +50,7 @@ def build_user_data(username, starting_words, word_level=1):
     tmp_df["Last_Studied"] = datetime.now()
     tmp_df["Study_Level"] = "PP"
     tmp_df["Word_Level"] = word_level
-    tmp_df["Inccorect_Times"] = 0
+    tmp_df["Incorect_Times"] = 0
     return tmp_df
 
 def check_existing_users(user_name, user_db, hanzi_df):
@@ -123,7 +123,8 @@ def create_answer_options(answer_ls):
 
 def check_if_need_to_study(user_df):
     global format_string
-    word_ls = list(user_df["meaning"])
+    # word_ls = list(user_df["meaning"])
+    no_need_to_study = []
     for index, row in user_df.iterrows():
         try:
             last_study_date = datetime.strptime(row["last_studied"], format_string)
@@ -132,21 +133,31 @@ def check_if_need_to_study(user_df):
         time_since_studied = calculate_time_since_last_study(last_review_time=last_study_date)
         study_needed = check_if_study(p_val=row["study_level"], review_time=time_since_studied)
         if not study_needed:
-            pass
-        else:
-            answer_ls = create_answer_ls(word_ls=word_ls, answer=row["meaning"])  # Keeping this for now. 
-            user_value = interface_study_word(row, answer_ls)  # Not sure how to itterate through webpages...
-            user_df.at[index, "last_studied"] = datetime.now()
-            study_result = study_word(user_value, row["meaning"])
-            inc_val = row["inccorect_times"] + study_result
-            user_df.at[index, "inccorect_times"] = inc_val
-            user_df.at[index, "study_level"] = update_SRS_level(
-                inc_times=inc_val,
-                study_level=row["study_level"],
-                inc_value=study_result,
-            )
+            # pass
+            no_need_to_study.append(index)
+        # else:
+            # answer_ls = create_answer_ls(word_ls=word_ls, answer=row["meaning"])  # Keeping this for now. 
+            # user_value = interface_study_word(row, answer_ls)  # Not sure how to itterate through webpages...
+            # user_df.at[index, "last_studied"] = datetime.now()
+            # study_result = study_word(user_value, row["meaning"])
+            # inc_val = row["inccorect_times"] + study_result
+            # user_df.at[index, "inccorect_times"] = inc_val
+            # user_df.at[index, "study_level"] = update_SRS_level(
+            #     inc_times=inc_val,
+            #     study_level=row["study_level"],
+            #     inc_value=study_result,
+            # )
+    user_df.drop(no_need_to_study, inplace=True)
     return user_df
 
+def update_study_terms(user_df, user_ans_val): # user_df is actually a dict
+    ## Most of this function is a re-structure of the above one. 
+    user_df["last_studied"] = datetime.now()
+    study_result = study_word(user_ans_val, user_df["meaning"]) # Need to check the answer
+    inc_val = user_df["incorect_times"] + study_result
+    user_df["incorect_times"] = inc_val
+    user_df["study_level"] = update_SRS_level(inc_times=inc_val, study_level=user_df["study_level"], inc_value=study_result)
+    return user_df
 
 def check_for_user_progress(user_df):
     global time_dict
