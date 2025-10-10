@@ -1,0 +1,33 @@
+{% extends "index.html" %}
+
+{% block content %}
+<h1>{{ user_name }}</h1>
+
+<table>
+    <tr>
+        <th>Level 1</th>
+        <th>Level 2</th>
+        <th>Level 3</th>
+        <th>Level 4</th>
+        <th>Level 5</th>
+        <th>Level 6</th>
+        <th>Level 7</th>
+        <th>Level 8</th>
+        <th>Level 9</th>
+        <th>Level 10</th>
+    </tr>
+    <tr>
+        <td>{{ PP_words }}</td>
+        <td>{{ P0_words }}</td>
+        <td>{{ P1_words }}</td>
+        <td>{{ P2_words }}</td>
+        <td>{{ P3_words }}</td>
+        <td>{{ P4_words }}</td>
+        <td>{{ P5_words }}</td>
+        <td>{{ P6_words }}</td>
+        <td>{{ P7_words }}</td>
+        <td>{{ P8_words }}</td>
+    </tr>
+</table>
+
+{% endblock %}

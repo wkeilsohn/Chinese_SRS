@@ -158,3 +158,16 @@ def pre_process_choices(values):
     for i in range(1, len(values)+1):
             value_choices.append((i, values[i-1]))
     return value_choices
+
+def stat_preper(df): 
+    p_ls = []
+    pp_ls = []
+    for i in range(0, 9):
+        p_ls.append(df.loc[df['study_level'] == 'P{}'.format(str(i))])
+    p_ls.append(df.loc[df['study_level'] == "PP"])
+    for i in p_ls:
+        try:
+            pp_ls.append(len(i.index))
+        except:
+            pp_ls.append(0)
+    return pp_ls

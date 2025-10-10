@@ -34,8 +34,8 @@ def index(request):
         for index, row in check_val.iterrows():
             user_word = User_Words(user_name = row["User_Name"], word = row["word"], meaning = row["meaning"], sheet_level = row["sheet_level"], last_studied = row["Last_Studied"], study_level = row["Study_Level"], word_level = row["Word_Level"], incorect_times = row["Inccorect_Times"])
             user_word.save()
-    print(User_Words.objects.all().values())
-    return HttpResponse("Hello World!")
+    # print(User_Words.objects.all().values())
+    return redirect('user_dash', username=user_name)
 
 def study(request, username): # Re-Integrated 
     if request.method == 'GET':
@@ -69,4 +69,8 @@ def study(request, username): # Re-Integrated
         return redirect('user_dash', username=username) # IDK, this is just for edge cases. 
 
 def user_dash(request, username):
-    return HttpResponse(username)
+    user_df = pd.DataFrame(list(User_Words.objects.all().values()))
+    user_words = user_df[user_df["user_name"] == username]
+    levels = stat_preper(user_words)
+    context = {'user_name':username, 'PP_words':levels[9], 'P0_words':levels[0], 'P1_words':levels[1], 'P2_words':levels[2], 'P3_words':levels[3], 'P4_words':levels[4], 'P5_words':levels[5], 'P6_words':levels[6], 'P7_words':levels[7], 'P8_words':levels[8]}
+    return render(request, 'main/dash.html', context)
