@@ -68,12 +68,5 @@ def study(request, username): # Re-Integrated
     else:
         return redirect('user_dash', username=username) # IDK, this is just for edge cases. 
 
-# def word_results(request, username): # Display answer and return to study list.
-#     word = request.session.get('word', None)
-#     answer = request.session.get('answer', None)
-#     word = update_study_terms(user_df=word, user_ans_val=answer)
-#     User_Words.objects.filter(user_name=username, word=word["word"]).update(last_studied=word["last_studied"], study_level=word["study_level"], incorect_times=word["incorect_times"])
-#     return redirect('study', username=username)
-
 def user_dash(request, username):
     return HttpResponse(username)

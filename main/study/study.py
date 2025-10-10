@@ -20,23 +20,6 @@ hanzi_df = pd.DataFrame()  # This is temporary
 def get_first_words(hanzi_df):
     return hanzi_df.head(5)
 
-
-# def get_current_hanzi_sheet(user_df): # Depricated
-#     current_sheet = user_df.tail(1)["Sheet_Level"].iloc[0]
-#     hanzi_df_path = os.path.join(hpath, "HV{}.csv".format(current_sheet))
-#     return get_user_words(num_file=hanzi_df_path)
-
-
-# def get_next_sheet(hanzi_df, user_df): # Depricated
-#     sheet_level = hanzi_df.tail(1)["Sheet_Level"].iloc[0]
-#     last_word = user_df.tail(1)["Word"].iloc[0]
-#     if hanzi_df.tail(1)["Word"].iloc[0] == last_word:
-#         sheet_level = sheet_level + 1
-#         hanzi_df_path = os.path.join(hpath, "HV{}.csv".format(sheet_level))
-#         hanzi_df = get_user_words(num_file=hanzi_df_path)
-#     return hanzi_df
-
-
 def get_next_set(hanzi_df, last_word):
     current_loc = hanzi_df[hanzi_df["Word"] == last_word].index[0]
     start_loc = current_loc + 1
@@ -123,7 +106,6 @@ def create_answer_options(answer_ls):
 
 def check_if_need_to_study(user_df):
     global format_string
-    # word_ls = list(user_df["meaning"])
     no_need_to_study = []
     for index, row in user_df.iterrows():
         try:
@@ -133,20 +115,7 @@ def check_if_need_to_study(user_df):
         time_since_studied = calculate_time_since_last_study(last_review_time=last_study_date)
         study_needed = check_if_study(p_val=row["study_level"], review_time=time_since_studied)
         if not study_needed:
-            # pass
             no_need_to_study.append(index)
-        # else:
-            # answer_ls = create_answer_ls(word_ls=word_ls, answer=row["meaning"])  # Keeping this for now. 
-            # user_value = interface_study_word(row, answer_ls)  # Not sure how to itterate through webpages...
-            # user_df.at[index, "last_studied"] = datetime.now()
-            # study_result = study_word(user_value, row["meaning"])
-            # inc_val = row["inccorect_times"] + study_result
-            # user_df.at[index, "inccorect_times"] = inc_val
-            # user_df.at[index, "study_level"] = update_SRS_level(
-            #     inc_times=inc_val,
-            #     study_level=row["study_level"],
-            #     inc_value=study_result,
-            # )
     user_df.drop(no_need_to_study, inplace=True)
     return user_df
 
