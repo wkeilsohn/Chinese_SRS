@@ -37,15 +37,15 @@ def index(request):
     print(User_Words.objects.all().values())
     return HttpResponse("Hello World!")
 
-def study(request, username): # This May be broken up later... I just want to create the integration now. 
+def study(request, username): # Re-Integrated 
     if request.method == 'GET':
         user_df = pd.DataFrame(list(User_Words.objects.all().values()))
         user_words = user_df[user_df["user_name"] == username]
         word_ls = user_words["meaning"].tolist()
         request.session['pos_words'] = word_ls
         user_words = check_if_need_to_study(user_df=user_words)
-        if len(user_words) <= 0:
-            return redirect('user_dash', username=username)
+        if len(user_words) <= 0: # If there are no words to study, take the user to their dashboard.
+            return redirect('user_dash', username=username) 
         else:
             for index, row in user_words.iterrows():
                 ans_ls = create_answer_ls(word_ls, row["meaning"])
@@ -54,25 +54,19 @@ def study(request, username): # This May be broken up later... I just want to cr
                 word_dict.pop("last_studied")
                 request.session["word"] = word_dict
                 request.session['ans_ls'] = ans_ls
-                test_form = TestForm()
+                # test_form = TestForm() # Testing Only
                 context = {'ans_form':ans_form, 'word_char':row["word"], 'answers':ans_ls, 'user_name':username, 'page_name':"Study"}
                 return render(request, 'main/study.html', context)
-    else:
+    elif request.method == 'POST':
+        ans_ls = request.session.get('ans_ls', None)
+        ans_data_raw = int(request.POST.get('answers'))
         word = request.session.get('word', None)
-        answer_lst = request.session.get('ans_ls', None)
-        # num_answer = 
+        answer = ans_ls[ans_data_raw - 1]
         word = update_study_terms(user_df=word, user_ans_val=answer)
         User_Words.objects.filter(user_name=username, word=word["word"]).update(last_studied=word["last_studied"], study_level=word["study_level"], incorect_times=word["incorect_times"])
         return redirect('study', username=username)
-
-# def ask_word(request, username): # How to handle an individual term... I think ...
-#     word = request.session.get('word', None)
-#     pos_words = request.session.get('pos_words', None)
-#     ans_ls = create_answer_ls(pos_words, word["meaning"])
-#     print(ans_ls)
-#     # Need to retrieve the answer from the web interface.
-#     context = {'word_char':word["word"], 'answers':ans_ls, 'user_name':username, 'page_name':"Study"}
-#     return render(request, 'main/study.html', context)
+    else:
+        return redirect('user_dash', username=username) # IDK, this is just for edge cases. 
 
 # def word_results(request, username): # Display answer and return to study list.
 #     word = request.session.get('word', None)

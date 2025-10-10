@@ -3,7 +3,10 @@
 {% block content %}
 <h1>{{ word_char }}</h1>
 
+<form method="POST">
 {% csrf_token %}
 {{ ans_form.as_table }}
+<button type="submit">Submit</button>
+</form>
 
 {% endblock %}
