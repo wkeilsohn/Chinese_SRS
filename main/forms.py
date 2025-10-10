@@ -31,3 +31,4 @@ class AnswerForm(forms.Form):
         field_choices = pre_process_choices(ans_ls)
         super().__init__(*args, **kwargs)
         self.fields['answers'] = forms.ChoiceField(choices=field_choices, widget=CustomHanziAnswers)
+

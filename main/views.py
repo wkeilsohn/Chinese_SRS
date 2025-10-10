@@ -44,7 +44,7 @@ def study(request, username): # Re-Integrated
         word_ls = user_words["meaning"].tolist()
         request.session['pos_words'] = word_ls
         user_words = check_if_need_to_study(user_df=user_words)
-        if len(user_words) <= 0: # If there are no words to study, take the user to their dashboard.
+        if len(user_words.index) <= 0: # If there are no words to study, take the user to their dashboard.
             return redirect('user_dash', username=username) 
         else:
             for index, row in user_words.iterrows():
@@ -69,8 +69,12 @@ def study(request, username): # Re-Integrated
         return redirect('user_dash', username=username) # IDK, this is just for edge cases. 
 
 def user_dash(request, username):
+    study_box = False
     user_df = pd.DataFrame(list(User_Words.objects.all().values()))
     user_words = user_df[user_df["user_name"] == username]
     levels = stat_preper(user_words)
-    context = {'user_name':username, 'PP_words':levels[9], 'P0_words':levels[0], 'P1_words':levels[1], 'P2_words':levels[2], 'P3_words':levels[3], 'P4_words':levels[4], 'P5_words':levels[5], 'P6_words':levels[6], 'P7_words':levels[7], 'P8_words':levels[8]}
+    can_study = len(check_if_need_to_study(user_df=user_words).index)
+    if can_study > 0:
+        study_box = True
+    context = {'study_box':study_box,'user_name':username, 'PP_words':levels[9], 'P0_words':levels[0], 'P1_words':levels[1], 'P2_words':levels[2], 'P3_words':levels[3], 'P4_words':levels[4], 'P5_words':levels[5], 'P6_words':levels[6], 'P7_words':levels[7], 'P8_words':levels[8]}
     return render(request, 'main/dash.html', context)

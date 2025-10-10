@@ -30,4 +30,18 @@
     </tr>
 </table>
 
+{% if study_box %}
+
+<a href="{% url 'study' username=user_name %}" class="study_box">Study Now!</a>
+
+{% else %}
+<div>
+    <p>
+        There are no words to study at the moment. <br>
+        Come back later!
+    </p>
+</div>
+
+{% endif %}
+
 {% endblock %}
