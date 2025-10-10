@@ -1,0 +1,9 @@
+body {
+    text-align: center;
+}
+
+#progress_table{
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
