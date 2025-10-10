@@ -3,10 +3,7 @@
 {% block content %}
 <h1>{{ word_char }}</h1>
 
-<ul>
-    {% for a in answers %}
-        <li>{{ a }}</li>
-    {% endfor %}
-</ul>
+{% csrf_token %}
+{{ ans_form.as_table }}
 
 {% endblock %}

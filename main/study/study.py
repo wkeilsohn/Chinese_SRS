@@ -183,3 +183,9 @@ def user_advance(hanzi_df, user_df):
             user_df=user_df
         )  # Forces the user to study the new words.
     return user_df
+
+def pre_process_choices(values):
+    value_choices = []
+    for i in range(1, len(values)+1):
+            value_choices.append((i, values[i-1]))
+    return value_choices
