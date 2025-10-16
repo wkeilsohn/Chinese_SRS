@@ -12,6 +12,7 @@ import pandas as pd
 from .time_manager import *
 import math
 from random import randint
+from django.utils import timezone
 
 # Declare Variables
 hanzi_df = pd.DataFrame()  # This is temporary
@@ -109,9 +110,9 @@ def check_if_need_to_study(user_df):
     no_need_to_study = []
     for index, row in user_df.iterrows():
         try:
-            last_study_date = datetime.strptime(row["last_studied"], format_string)
+            last_study_date = row["last_studied"]
         except:
-            last_study_date = (datetime.now())  # Error only occurs when crearing new user.
+            last_study_date = timezone.now()  # Error only occurs when crearing new user.
         time_since_studied = calculate_time_since_last_study(last_review_time=last_study_date)
         study_needed = check_if_study(p_val=row["study_level"], review_time=time_since_studied)
         if not study_needed:

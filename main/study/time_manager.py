@@ -4,7 +4,8 @@
 # Import Packages
 # import time
 # import numpy
-from datetime import datetime, timedelta
+from datetime import datetime
+from django.utils import timezone 
 
 # Define Variables
 
@@ -25,7 +26,8 @@ format_string = "%Y-%m-%d %H:%M:%S.%f"
 
 # Define Functions
 def calculate_time_since_last_study(last_review_time):
-    ctime = datetime.now()
+    ctime = timezone.now()
+    # last_review_time = timezone.datetime(last_review_time, tzinfo=timezone.get_current_timezone()) # Should be pre-formated
     time_diff = ctime - last_review_time
     time_diff = time_diff.total_seconds()
     return time_diff / 3600
@@ -40,7 +42,7 @@ def check_if_study(p_val, review_time):
         return False
 
 
-# Test Application
-if __name__ == "__main__":
-    rev_time = calculate_time_since_last_study(datetime(2025, 9, 26, 8, 0, 0))
-    print(check_if_study("P0", rev_time))
+# # Test Application
+# if __name__ == "__main__":
+#     rev_time = calculate_time_since_last_study(datetime(2025, 9, 26, 8, 0, 0))
+#     print(check_if_study("P0", rev_time))
