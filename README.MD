@@ -18,6 +18,10 @@ python main.py
 ```
 This file will use a CSV saved locally to create a personalized version of the SRS application for you.
 
+- 10/16/2025
+At this point (almost) all of the features needed for a web-based SRS system have been built out. The application can be run locally and a browser window can be used to interact with the application.
+The only features that have not been fully flushed out are the Django backend / admin functions as these are not necessary at this time. 
+
 ## License
 
 This application is free to use and is being provided "AS IS".
