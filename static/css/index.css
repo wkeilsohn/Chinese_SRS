@@ -6,4 +6,69 @@ body {
     margin-left: auto;
     margin-right: auto;
     width: 80%;
+    /* position: absolute; */
+    z-index: 2;
+}
+
+#Heading{
+    position: relative;
+}
+
+.top_bar{
+    max-width: 100%;
+    width: 5000px;
+    height: 75px;
+    max-height: 10%;
+    background-color: red;
+    outline: 5px solid gold;
+}
+
+.left_curten_plume{
+    background-color: red;
+    height: 200px;
+    width: 100px;
+    /* transform: translate(-50%, -50%); */
+    border-radius: 0 150px 150px 0;
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    outline: 5px solid gold;
+}
+
+.right_curten_plume{
+    background-color: red;
+    height: 200px;
+    width: 100px;
+    border-radius: 50%;
+    border-radius: 150px 0 0 150px;
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    top: 0;
+    outline: 5px solid gold;
+}
+
+.left_curten{
+    background-color: red;
+    position: absolute;
+    left: 0;
+    height: 80vh;
+    max-height: 100%;
+    width: 50px;
+    max-width: 10%;
+    z-index: 1;
+    outline: 5px solid gold;
+}
+
+.right_curten{
+    background-color: red;
+    position: absolute;
+    right: 0;
+    height: 80vh;
+    max-height: 100%;
+    width: 50px;
+    max-width: 10%;
+    z-index: 1;
+    outline: 5px solid gold;
 }
