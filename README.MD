@@ -22,6 +22,10 @@ This file will use a CSV saved locally to create a personalized version of the S
 At this point (almost) all of the features needed for a web-based SRS system have been built out. The application can be run locally and a browser window can be used to interact with the application.
 The only features that have not been fully flushed out are the Django backend / admin functions as these are not necessary at this time. 
 
+- 10/31/2025
+Project functions as intended. No further improvements are planned.
+Additional modifications could be made in the form of a Django admin console, but ATM this is not necessary.
+
 ## License
 
 This application is free to use and is being provided "AS IS".
